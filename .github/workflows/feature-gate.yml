@@ -18,6 +18,9 @@ jobs:
       - name: Install jq
         run: sudo apt-get update && sudo apt-get install -y jq
 
+      - name: Fetch base branch for lifecycle gate
+        run: git fetch origin main:refs/remotes/origin/main
+
       - name: Run Linux installer tests
         run: |
           bash -n install.sh tests/install-linux-smoke.sh tests/feature-gate-smoke.sh scripts/feature-gate.sh

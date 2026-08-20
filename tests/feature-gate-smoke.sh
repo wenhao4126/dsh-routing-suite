@@ -9,7 +9,8 @@ trap 'rm -rf -- "$tmp"' EXIT
 git clone --quiet --no-local "$repo_root" "$tmp/repo"
 cd "$tmp/repo"
 git checkout --quiet --detach HEAD
-git fetch --quiet origin main:refs/remotes/origin/main
+base_sha="$(git -C "$repo_root" rev-parse origin/main)"
+git update-ref refs/remotes/origin/main "$base_sha"
 if git show-ref --verify --quiet refs/heads/main; then
   git branch -D main >/dev/null
 fi
