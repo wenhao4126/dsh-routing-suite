@@ -1,0 +1,37 @@
+name: Linux installation gate
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  feature-gate:
+    name: Test and lifecycle gate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source and submodules
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Fetch base branch for lifecycle gate
+        run: git fetch origin main:refs/remotes/origin/main
+
+      - name: Run Linux installer tests
+        run: |
+          bash -n install.sh tests/install-linux-smoke.sh tests/feature-gate-smoke.sh scripts/feature-gate.sh
+          bash tests/install-linux-smoke.sh
+          bash tests/feature-gate-smoke.sh
+
+      - name: Save automatic test result
+        run: mkdir -p artifacts/test-results && touch artifacts/test-results/passed
+
+      - name: Run lifecycle gate
+        env:
+          BASE_BRANCH: main
+          GITHUB_HEAD_REF: ${{ github.head_ref }}
+        run: bash scripts/feature-gate.sh

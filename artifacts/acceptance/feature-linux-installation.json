@@ -1,0 +1,22 @@
+{
+  "tool": "wen-chat",
+  "status": "passed",
+  "timestamp": "2026-08-20T10:50:27+08:00",
+  "passed_cases": [
+    {
+      "name": "Arch Linux 实际安装并重启 DSH Web",
+      "evidence": "install.sh 已通过官方 SHA-256 校验安装 injector v0.3.3；Web profile 链接到稳定目录；重启后 http://127.0.0.1:3080 返回 HTTP 200。"
+    },
+    {
+      "name": "新会话选择 Router Standard 与 Router Spec",
+      "evidence": "用户已在 DSH Web 中分别选择 Router Standard (experimental) 和 Router Spec (experimental)，确认两个预设均可选择且可正常回复。"
+    }
+  ],
+  "failed_cases": [],
+  "blocked_cases": [],
+  "notes": [
+    "已独立确认 dsh 版本为 0.1.0-rc.7；实际安装和干净重启后 http://127.0.0.1:3080 返回 HTTP 200。",
+    "现有 injector 自检日志的最新记录为 PASS 8/8。",
+    "用户于 2026-08-20 明确回复：验收通过。"
+  ]
+}

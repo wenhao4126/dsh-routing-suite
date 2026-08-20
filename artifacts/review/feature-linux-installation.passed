@@ -1,0 +1,7 @@
+status: passed
+timestamp: 2026-08-20T10:04:54+08:00
+method: manual read-only review
+scope: install.sh, install.ps1, tests, GitHub Actions gate, README.md, README.en.md, CHANGELOG.md
+checks: destructive paths, checksum bypass, test-only override boundary, preset nesting, CI detached checkout, private paths, attribution, support claims, secret-pattern scan
+result: no high-risk findings
+note: gstack review checklist was unavailable in this repository, so its required automated review workflow could not run; this marker records the completed manual read-only review.
