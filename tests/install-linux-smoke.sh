@@ -84,7 +84,7 @@ marker='需要从备份恢复的旧配置'
 printf '%s\n' "$marker" >> "$standard_target/preset.yml"
 run_installer
 
-backup_match="$(rg -l --fixed-strings "$marker" "$dsh_home/backups" | head -n 1 || true)"
+backup_match="$(grep -R -l -F -- "$marker" "$dsh_home/backups" | head -n 1 || true)"
 [[ -n "$backup_match" ]] || fail '重复安装没有备份原有 router-standard 配置'
 
 printf 'PASS: Linux 安装器试运行、安装路径、DSH 调用和重复安装备份均符合预期。\n'
