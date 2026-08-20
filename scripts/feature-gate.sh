@@ -14,15 +14,22 @@ fail() {
   failed=1
 }
 
+stable_branch="${base_branch#origin/}"
+if git rev-parse --verify --quiet "refs/heads/$stable_branch" >/dev/null; then
+  base_ref="$stable_branch"
+else
+  base_ref="origin/$stable_branch"
+fi
+
 branch="${GITHUB_HEAD_REF:-$(git branch --show-current)}"
 if [[ -z "$branch" ]]; then
   fail '当前不在普通 Git 分支上，也没有提供 GITHUB_HEAD_REF。'
-elif [[ "$branch" == "$base_branch" ]]; then
-  fail "当前在稳定分支 $base_branch，功能必须在独立分支中开发。"
+elif [[ "$branch" == "$stable_branch" ]]; then
+  fail "当前在稳定分支 $stable_branch，功能必须在独立分支中开发。"
 fi
 
-if ! git rev-parse --verify "$base_branch" >/dev/null 2>&1; then
-  fail "找不到基础分支 $base_branch。请设置 BASE_BRANCH。"
+if ! git rev-parse --verify "$base_ref" >/dev/null 2>&1; then
+  fail "找不到基础分支 $stable_branch 或 $base_ref。"
 fi
 
 branch_slug="${branch//\//-}"
@@ -30,7 +37,7 @@ acceptance_file="$acceptance_dir/$branch_slug.json"
 review_file="$review_dir/$branch_slug.passed"
 
 changed_files="$({
-  git diff --name-only "$base_branch"...HEAD 2>/dev/null || true
+  git diff --name-only "$base_ref"...HEAD 2>/dev/null || true
   git diff --name-only
   git ls-files --others --exclude-standard
 } | sort -u)"

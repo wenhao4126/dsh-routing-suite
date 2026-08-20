@@ -20,8 +20,9 @@ jobs:
 
       - name: Run Linux installer tests
         run: |
-          bash -n install.sh tests/install-linux-smoke.sh scripts/feature-gate.sh
+          bash -n install.sh tests/install-linux-smoke.sh tests/feature-gate-smoke.sh scripts/feature-gate.sh
           bash tests/install-linux-smoke.sh
+          bash tests/feature-gate-smoke.sh
 
       - name: Save automatic test result
         run: mkdir -p artifacts/test-results && touch artifacts/test-results/passed
