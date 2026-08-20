@@ -9,6 +9,7 @@ trap 'rm -rf -- "$tmp"' EXIT
 git clone --quiet --no-local "$repo_root" "$tmp/repo"
 cd "$tmp/repo"
 git checkout --quiet --detach HEAD
+git fetch --quiet origin main:refs/remotes/origin/main
 if git show-ref --verify --quiet refs/heads/main; then
   git branch -D main >/dev/null
 fi
